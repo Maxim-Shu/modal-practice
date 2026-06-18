@@ -1,41 +1,55 @@
-/*
-    1) Відкрити та закрити за допомогою кнопки
-    2) Закрити за кліком у бекдроп: onBackDropClick
-    3) Закрити за допомогою ESC: onEscapeKeypress
-У CSS є клас show-modal, який необхідно додати до body при відкритті модалки 
- */
+const modalOpenButton = document.querySelector('[data-action = "open-modal"]')
+const modalCloseButton = document.querySelector('[data-action = "close-modal"]')
+const modalBackdrop = document.querySelector(".js-backdrop")
 
 
-const openButton = document.querySelector('[data-action="open-modal"]')
+const onOpenModal = function(){
+document.body.classList.add("show-modal")
+document.addEventListener("keydown", onEscapeKeypress)
+}
 
-const closeButton = document.querySelector('[data-action="close-modal"]')
-const backdrop = document.querySelector('.js-backdrop')
+const onCloseModal = function(){
+    document.body.classList.remove("show-modal")
+    document.removeEventListener("keydown", onEscapeKeypress)
+}
 
-console.log(openButton, closeButton)
-
-
-const onOpenModal = () => {
-document.body.classList.add('show-modal')
-} 
-
-
-const onCloseModal = () => {
-document.body.classList.remove('show-modal')
-} 
-
-const onBackdropClick = (event) => {
-    console.log(event.target)
-    console.log(event.target)
-document.body.classList.remove('show-modal')
-} 
-
-const onEscapeKeypress = (event) => {
-    if (event.code == 'ESC') {
-        document.body.classList.remove('show-modal')
+const onBackDropClick = function(){
+    console.log(event.target);
+    console.log(event.currentTarget);
+    if (event.target === event.currentTarget) {
+       onCloseModal()
     }
-} 
+    
+}
 
-openButton.addEventListener('click', onOpenModal)
-closeButton.addEventListener('click', onCloseModal)
-backdrop.addEventListener('click', onBackdropClick)
-backdrop.addEventListener('keydown', onEscapeKeypress)
+const onEscapeKeypress = function(event){
+       if (event.code === "Escape") {
+        onCloseModal()
+    }
+    
+}
+
+
+modalOpenButton.addEventListener("click", onOpenModal)
+modalCloseButton.addEventListener("click", onCloseModal)
+modalBackdrop.addEventListener("click", onBackDropClick)
+
+
+
+const box = document.querySelector('.js-box')
+
+
+const onMouseEnter = () => {
+    document.body.classList.add("box--active")
+    box.classList.add("box--active")
+
+}
+
+const onMouseLeave = () => {
+    document.body.classList.remove("box--active")
+    box.classList.remove("box--active")
+}
+
+box.addEventListener('mouseover', onMouseEnter)
+box.addEventListener('mouseout', onMouseLeave)
+
